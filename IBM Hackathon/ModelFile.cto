@@ -1,0 +1,101 @@
+namespace org.blockchain.visa
+
+participant Embassy identified by embassyId{
+ o String embassyId
+ o String name
+ o String address
+ o String phoneNumber
+}
+
+asset Visa identified by visaId {
+o String visaId
+o Integer issueDate
+o String typeVisa
+o String embassy
+o Integer travellerId
+o String validity
+o String status
+--> Govt govt
+}
+
+participant Traveler identified by participantId {
+o String participantId
+o String primaryName
+o String countryOfCitizen
+o    String schoolName
+o String passportName
+o DateTime dateOfBirth
+o String formIssueReason
+}
+
+asset Application identified by applicationId {
+o String applicationId
+o String primaryName
+o String givenName
+o ApplicationType applicationType
+o RelationshipStatus relationshipStatus
+o String orginCitizenship
+o String phoneNumber
+o Boolean hasBeenInUsBefore
+o Integer Score 
+o Boolean approved
+--> Traveler traveler
+
+
+}
+enum EducationLevel
+{
+o ELEMENTARY
+o HIGHSCHOOL
+o BACHLOR
+}
+enum ApplicationType {
+o STUDENT
+o WORK
+o TOURIST
+}
+enum RelationshipStatus {
+o SINGLE
+o MARRIED
+o DIVORCED
+}
+
+participant Govt identified by govtId {
+o String govtId
+o Integer govtNum
+o Embassylocation numEmbassylocation
+default = "U.S Embassy"
+o Boolean approved
+}
+
+enum Embassylocation{
+o FRANCE
+o GERMANY
+o INDIA
+}
+
+
+transaction Apply
+{
+     --> Application application
+   --> Govt govt
+}
+
+transaction Approve
+{
+     --> Application application
+     --> Visa visa
+     --> Traveler traveler
+}
+
+transaction Reject
+{
+     --> Application application
+     --> Traveler traveler
+}
+
+transaction Update
+{
+   --> Application application
+   --> Govt govt
+}

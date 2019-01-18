@@ -1,0 +1,49 @@
+rule SampleConditionalRuleWithTransaction {
+   description: "Traveler Apply"
+   participant(m): "org.blockchain.visa.Traveler"
+   operation: ALL
+   resource(v): "org.blockchain.visa.Application"
+   transaction(tx): "org.blockchain.visa.Apply"
+   condition: (v.application.getIdentifier() == m.getIdentifier())
+   action: ALLOW
+}
+
+rule SampleConditionalRuleWithTransaction {
+   description: "Traveler Update"
+   participant(m): "org.blockchain.visa.Traveler"
+   operation: ALL
+   resource(v): "org.blockchain.visa.Application"
+   transaction(tx): "org.blockchain.visa.Update"
+   condition: (v.application.getIdentifier() == m.getIdentifier())
+   action: ALLOW
+}
+
+rule govtUpdate1 {
+  description: "Govt approve"
+  participant(m): "org.blockchain.visa.Govt"
+  operation: ALL
+  resource(v): "org.blockchain.visa.Application"
+  transaction(tx): "org.blockchain.visa.Approve"
+  condition: (v.application.getIdentifier() == g.getIdentifier())
+  action: ALLOW
+}
+
+rule govtUpdate2 {
+  description: "Govt approve"
+  participant(m): "org.blockchain.visa.Govt"
+  operation: ALL
+  resource(v): "org.blockchain.visa.Visa"
+  transaction(tx): "org.blockchain.visa.Appove"
+  condition: (v.application.getIdentifier() == g.getIdentifier())
+  action: ALLOW
+}
+
+rule govtUpdate3 {
+  description: "Govt reject"
+  participant(m): "org.blockchain.visa.Govt"
+  operation: ALL
+  resource(v): "org.blockchain.visa.Application"
+  transaction(tx): "oorg.blockchain.visa.Reject"
+  condition: (v.application.getIdentifier() == g.getIdentifier())
+  action: ALLOW
+}
